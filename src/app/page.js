@@ -1,9 +1,9 @@
 
 
 
+"use client";
 
-"use client"
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams, useRouter } from 'next/navigation';
 import CategorySelector from './components/categoryselector';
@@ -13,7 +13,7 @@ import { fetchCategories } from './redux/actions/categoryactions';
 import { fetchProducts } from './redux/actions/productactions';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-export default function Home() {
+const HomeContent = () => {
   const dispatch = useDispatch();
   const searchParams = useSearchParams(); // To manage query params
   const router = useRouter(); // Next.js router for client-side navigation
@@ -102,5 +102,13 @@ export default function Home() {
         </div>
       )}
     </div>
+  );
+};
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <HomeContent />
+    </Suspense>
   );
 }
